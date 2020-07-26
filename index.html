@@ -48,7 +48,7 @@
                 <div id="drawer-section">
                     <br>
                     <v-list-item>
-                        <v-avatar>
+                        <v-avatar width="100" height="100">
                             <v-img src="images/thanh.jpg"></v-img>
                         </v-avatar>
                     </v-list-item>
@@ -70,6 +70,9 @@
                             :key=i
                             @click="navScroll(item, i)" >
                         <v-list-item-title>{{ item }}</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="goToPage('assets/Thanh_Tran_Resume.pdf')">
+                        <v-list-item-title>Resume</v-list-item-title>
                     </v-list-item>
                 </v-list>
             </v-navigation-drawer>
@@ -177,13 +180,17 @@
                     </v-lazy>
                 </v-responsive>
                 <v-container>
-                    <v-row dense>
-                        <v-col
-                                v-for="(proj, i) in projects"
-                                cols="12">
-                            <transition name="slide-y-reverse-transition" enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
-                                <div v-if="mobile=== false ? scrollPosition > proj.show : scrollPosition > proj.mobile">
-                                    <v-card flat tile>
+                    <v-row  v-for="(proj, i) in projects" dense>
+                        <v-responsive min-height="200">
+                            <v-lazy
+                                :options="{
+                                threshold: .5
+                                }"                        
+                                transition="fade-transition"
+                            >
+                        <v-col cols="12">
+                                <div>
+                                    <v-card flat tile class="animate__animated animate__fadeInLeft">
                                         <div class="d-flex flex-no-wrap ">
                                             <v-avatar
                                                     v-if="mobile === false"
@@ -219,8 +226,9 @@
                                         </div>
                                     </v-card>
                                 </div>
-                            </transition>
                         </v-col>
+                        </v-lazy>
+                        </v-responsive>
                     </v-row>
                 </v-container>
                 </v-card>
@@ -445,7 +453,6 @@
             onScroll (e) {
                 this.scrolled = window.scrollY > 0;
                 this.scrollPosition = window.scrollY;
-                console.log(window.scrollY);
                 if ( window.scrollY > 150){
                     var toIncreaseBy = ( window.scrollY - 100 + 1 ) / 6;
                     this.skillBar = toIncreaseBy + "%";
@@ -506,7 +513,7 @@
                 this.drawer = false;
             },
             goToPage(page){
-                window.open(page, "_self");
+                window.open(page, "blank");
             }
         },
         mounted () {
