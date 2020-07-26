@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+    Thanh Tran
+    © 2018 Thanh Tran. All Rights Reserved.
+-->
+<html>
+    <head>
+        <title>Thanh's Site</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- jQuery -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <!-- Third party js -->
+        <script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
+        <!-- Icons http://konpa.github.io/devicon/ -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+        <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link href="//fonts.googleapis.com/css?family=Bitter" rel="stylesheet" type="text/css">
+        <!-- my JS -->
+        <script src="js/bootstrap.js"></script>
+        <script src="js/indexScript.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-113161898-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-113161898-1');
+		</script>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/style.css" type = "text/css">
+    </head>
+
+    <body>
+    <div class="container-fluid">
+        <div class="container-fluid intro-section">
+            <div class = "container-fluid greeting">
+                <h1 class = "introduction">Hello, I'm Thanh Tran</h1><hr>
+                <span class = "intro-message"></span>
+            </div>
+            <div class="next-section">
+               
+            </div>
+        </div>
+        <div class="container-fluid skills-section">
+            <h2>Skills</h2><hr>
+            <div class="container-fluid logos-section">
+            <div class="container-fluid exp-skills logos">
+                <i class="devicon-java-plain-wordmark colored"></i>
+                <i class="devicon-csharp-line colored"></i>
+                <i class="devicon-python-plain-wordmark colored"></i>
+                <i class="devicon-php-plain colored"></i>
+            </div>
+            <div class="container-fluid exp-skills logos">
+                <i class="devicon-javascript-plain colored"></i>
+                <i class="devicon-jquery-plain-wordmark colored"></i>
+                <i class="devicon-bootstrap-plain colored"></i>
+                <i class="devicon-react-original-wordmark colored"></i>
+                <i class="devicon-css3-plain-wordmark colored"></i>
+                <i class="devicon-html5-plain-wordmark colored"></i>
+            </div>
+            <div class="container-fluid exp-skills logos">
+                <i class="devicon-dot-net-plain-wordmark colored"></i>
+                <i class="devicon-mysql-plain-wordmark colored"></i>
+                <i class="devicon-git-plain colored"></i>
+                <i class="devicon-linux-plain colored"></i>
+            </div>
+            </div>
+        </div>
+        <div class="container-fluid aboutme-section" id="backFromResume">
+            <h2>Profile</h2><hr>
+            <div class = "container-fluid resume">
+                <a class = "resume-link" href="resume.html">View Resume &nbsp;<i class="far fa-arrow-alt-circle-right"></i></a>
+            </div>
+            <div class="container-fluid interests-others row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-4 interests">
+                    <h3>Interests</h3><hr>
+                    <p class = interests-p></p>
+                </div>
+                <div class="col-sm-4 others-part">
+                    <h3>Activities</h3><hr>
+                    <p class = others-p></p>
+                </div>
+                <div class="col-sm-2">
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid project-section">
+            <h2>Projects</h2><hr>
+            <div class="container-fluid project-area">
+            </div>
+            <div class="container-fluid project-navigator">
+                <div class="row">
+                <div class="left-arrow col-sm-2 col-xs-2"><i class="fas fa-angle-left"></i></div>
+                <div class="badges-section col-sm-8 col-xs-8" ></div>
+                <div class="right-arrow col-sm-2 col-xs-2"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class = "profile">
+            <a href = "https://www.linkedin.com/in/thanhtran7" target="_blank"><img src="images/linkedin.png" alt="LinkedIn logo"></a>
+            <a href = "https://github.com/thanhtrannn" target="_blank"><img src="images/GitHub-Mark-32px.png" alt="GitHub logo"></a>
+        </div>
+    </div>
+    </body>
+</html>
+
+<script>
+$(document).ready(function(){
+
+    // typed message
+    $('.introduction').hide().slideDown(1000).delay(1000).slideDown("fast", function () {
+        new Typed('.intro-message', {
+            strings: ["A 3rd year student at Mohawk College for Software Development", "I am seeking a co-op position for the spring/summer term of 2019", "to begin this exciting journey into Software Development!"],
+            typeSpeed: 30,
+            backSpeed: 10,
+            onComplete: function(){
+                $('.next-section').append('<i class="jump fas fa-chevron-circle-down"></i>').click(function(){
+                    $('html, body').animate({
+                        scrollTop: $(".skills-section").offset().top
+                }, 1000);
+                });
+            }
+        });
+    });
+    
+});
+
+</script>

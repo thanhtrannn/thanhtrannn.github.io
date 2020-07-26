@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/style.css" rel="stylesheet">
+    <title>Thanh's Site</title>
+</head>
+<body>
+<div id="app">
+    <v-app v-resize="onResize" v-scroll="onScroll">
+        <template>
+            <v-app-bar v-if="mobile === false"
+                       id="nav-bar"
+                    flat
+                    fixed
+                    :style="atTop === true ? 'background-color: transparent;' : 'background-color: #212121;'" >
+                <v-tabs
+                        v-model="selectedTab"
+                        dark
+                        grow>
+                    <v-tab  v-for="(item, i) in navItem"
+                            @click="navScroll(item, i)"
+                            :key=i>
+                        {{item}}
+                    </v-tab>
+                </v-tabs>
+            </v-app-bar>
+        </template>
+        <v-btn v-if="mobile === true"
+                id="mobileNav"
+                @click.stop="drawer = !drawer"
+                dark>
+            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        </v-btn>
+        <template>
+            <v-navigation-drawer
+                    v-model="drawer"
+                    fixed
+                    temporary
+                    right
+                    width="200">
+                <div id="drawer-section">
+                    <br>
+                    <v-list-item>
+                        <v-avatar>
+                            <v-img src="images/thanh.jpg"></v-img>
+                        </v-avatar>
+                    </v-list-item>
+                    <v-list-item style="text-align: center">
+                        <v-list-item-content>
+                            <v-list-item-title>Thanh Tran</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <div id="drawer-links">
+                            <a href="https://github.com/thanhtrannn/" target="_blank"><v-icon>mdi-github-box</v-icon></a>
+                            <a href="mailto:thanh-tran@hotmail.com"><v-icon>mdi-email</v-icon></a>
+                            <a text href="tel:19059215160"><v-icon>mdi-phone</v-icon></a>
+                            <a text href="https://www.linkedin.com/in/thanhtran7/" target="_blank"><v-icon>mdi-linkedin-box</v-icon></a>
+                        </div>
+                    </v-list-item>
+                </div>
+                <v-divider></v-divider>
+                <v-list>
+                    <v-list-item
+                            v-for="(item, i) in navItem"
+                            :key=i
+                            @click="navScroll(item, i)" >
+                        <v-list-item-title>{{ item }}</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-navigation-drawer>
+        </template>
+        <template>
+            <v-parallax
+                    :height = "windowSize.y"
+                    class="top-bg"
+                    id="top-section">
+                <div>
+                    <h1 class="display-1 font-weight-thin mb-4 element">Hi, my name is Thanh</h1>
+                    <span class="intro-message"></span>
+                </div>
+            </v-parallax>
+        </template>
+        <template>
+            <v-parallax
+                    class="top-bg"
+                    height = "600"
+                    :src="mobile === true ? 'images/rain-street-mob.jpg' : 'images/rain-street.jpg'"
+                    id="information-section">
+                <template>
+                    <v-row>
+                        <v-col cols="8" class="remove-padding">
+                            <div v-for="skills in skillRight">
+                                <br />
+                                <v-progress-linear v-bind:style="{width: skillBar, maxWidth: skills.percent}" class="skillLeft" v-bind:class="skills.percent"
+                                                   value="100"
+                                                   height="50"
+                                                   rounded
+                                                   :color="skills.color">
+                                    <span class="font-white"><span v-if="mobile == false">{{skills.type}}&nbsp;</span><v-icon dense large color="white">{{skills.icon}}</v-icon></span>
+                                </v-progress-linear>
+                            </div>
+                        </v-col>
+                        <v-col cols="4" class="remove-padding" align="center">
+                            <v-row v-for="link in skillLeft">
+                                <v-col cols="6" class="remove-padding"></v-col>
+                                <v-col cols="6" class="remove-padding">
+                                    <transition name="slide-y-reverse-transition" enter-active-class="animate__animated animate__fadeInRight" leave-active-class="animate__animated animate__fadeOutRight">
+                                        <div v-if="scrollPosition > link.scrollAt">
+                                            <v-hover v-slot:default="{ hover }">
+                                                <v-card
+                                                        :elevation="hover ? 24 : 4"
+                                                        :href="link.href"
+                                                        target="_blank"
+                                                        class="image-zoom">
+                                                    <v-img
+                                                            :src="link.bg"
+                                                            class="white--text align-end"
+                                                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                                            height="200">
+                                                        <v-card-title class="display-1 mb-4"><v-icon dense large color="white">{{link.icon}}</v-icon>&nbsp<span v-if="mobile == false" class="text-md-h6 text-sm-body-1 link-title">{{link.title}}</span></v-card-title>
+                                                    </v-img>
+                                                </v-card>
+                                            </v-hover>
+                                        </div>
+                                    </transition>
+                                </v-col>
+                            </v-row>
+                        </v-col>
+                    </v-row>
+                </template>
+            </v-parallax>
+        </template>
+        <template>
+            <div class="bg-timeline" id="experiences-section">
+                <v-timeline :dense='mobile'>
+                    <v-timeline-item
+                            v-for="(item, i) in items"
+                            :key="i"
+                            color="black"
+                            :icon="item.icon"
+                            fill-dot>
+                        <span slot="opposite" class="subtitle-1  mb-4">{{item.date}}</span>
+                        <transition name="slide-y-reverse-transition" enter-active-class="animate__animated animate__fadeInUp" leave-active-class="animate__animated animate__fadeOutDown">
+                                <v-card
+                                        v-bind:style="mobile === false ? {backgroundImage: item.bg} : {backgroundImage: item.mobilebg}"
+                                        class="experience-card"
+                                        color="black"
+                                        dark>
+                                    <v-card-title>{{item.title}}</v-card-title>
+                                    <v-card-subtitle >{{item.subtitle}}</v-card-subtitle>
+                                    <v-card-text>
+                                        <div class="experience-detail">{{item.text}}</div>
+                                    </v-card-text>
+                                </v-card>
+                        </transition>
+                    </v-timeline-item>
+                </v-timeline>
+            </div>
+        </template>
+        <template>
+            <div id="project-section">
+                <br>
+                <br>
+                <v-responsive>
+                    <v-lazy
+                            :options="{threshold: .9}"
+                            transition="scale-transition">
+                        <div>
+                            <h1 class="project-title">Projects</h1>
+                            <br>
+                        </div>
+                    </v-lazy>
+                </v-responsive>
+                <v-container>
+                    <v-row dense>
+                        <v-col
+                                v-for="(proj, i) in projects"
+                                cols="12">
+                            <transition name="slide-y-reverse-transition" enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
+                                <div v-if="scrollPosition > proj.show">
+                                    <v-card flat tile>
+                                        <div class="d-flex flex-no-wrap ">
+                                            <v-avatar
+                                                    v-if="mobile === false"
+                                                    class="ma-3"
+                                                    :size="mobile === false ? '250' : '125' "
+                                                    v-bind:style="{ 'background-image': 'url(' + proj.src + ')' }"
+                                                    style="margin: auto;  transition: all 1s ease;  background-size:100%;"
+                                                    tile>
+                                            </v-avatar>
+                                            <div class="project-details">
+                                                <v-card-title
+                                                        class="headline"
+                                                        v-text="proj.title"
+                                                ></v-card-title>
+                                                <hr v-if="mobile===false">
+                                                <v-img
+                                                        v-if="mobile === true"
+                                                        width="250"
+                                                        max-height="250"
+                                                        min-height="150"
+                                                        v-bind:style="{ 'background-image': 'url(' + proj.src + ')' }"
+                                                        style="margin: auto;  transition: all 1s ease;  background-size:100%; height:auto;">
+                                                </v-img>
+                                                <v-card-subtitle v-html="proj.description"></v-card-subtitle>
+                                                <v-card-actions class="project-button-section">
+                                                    <ul class="menu">
+                                                        <li class="nav-button" v-for="(link) in proj.links" @click="goToPage(link.href)">
+                                                            {{link.value}}
+                                                        </li>
+                                                    </ul>
+                                                </v-card-actions>
+                                            </div>
+                                        </div>
+                                    </v-card>
+                                </div>
+                            </transition>
+                        </v-col>
+                    </v-row>
+                </v-container>
+                </v-card>
+            </div>
+        </template>
+        <v-footer>
+            <div id="footer-area">
+                <div>© Thanh Tran 2020</div>
+                <div id="footer-link-section">
+                    <v-btn text href="https://github.com/thanhtrannn/" target="_blank"><v-icon>mdi-github-box</v-icon></v-btn>
+                    <v-btn text href="mailto:thanh-tran@hotmail.com"><v-icon>mdi-email</v-icon></v-btn>
+                    <v-btn text href="tel:19059215160"><v-icon>mdi-phone</v-icon></v-btn>
+                    <v-btn text href="https://www.linkedin.com/in/thanhtran7/" target="_blank"><v-icon>mdi-linkedin-box</v-icon></v-btn>
+                </div>
+            </div>
+        </v-footer>
+    </v-app>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113161898-1"></script>
+<script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-113161898-1');
+</script>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        // initialize
+        data: {
+            drawer: null,
+            atTop: true,
+            tabWasClicked: false,
+            selectedTab: 0,
+            mobile: false,
+            isActive: false,
+            scrolled: false,
+            scrollPosition: 0,
+            scrollTop: 0,
+            skillBar: "10%",
+            navItem:["Introduction", "Information", "Experiences", "Projects"],
+            skillRight: [
+                {type: "C# ( ASP.NET CORE, MVC, Blazor, Razor )",
+                    percent: "80%",
+                    icon: "mdi-language-csharp",
+                    color: "red darken-4"},
+                {type: "Python ( ML, Automation, Scripts )",
+                    percent: "95%",
+                    icon: "mdi-language-python",
+                    color: "teal darken-4"},
+                {type: "Back-End ( Java, NodeJS )",
+                    percent: "70%",
+                    icon: "mdi-language-java",
+                    color: "indigo darken-4"},
+                {type: "Mobile: Android/iOS",
+                    percent: "55%",
+                    icon: "mdi-language-swift",
+                    color: "purple darken-4"},
+                {type: "Front-End (JS, Vues, jQuery, Bootstrap)",
+                    percent: "90%", icon: "mdi-language-javascript",
+                    color: "cyan darken-4"},
+                {type: "Reporting and Analytics ( VBA, Power BI )",
+                    percent: "90%", icon: "mdi-file-excel",
+                    color: "grey darken-4"},
+                {type: "Database ( MS-SQL, Access, SharePoint )",
+                    percent: "70%", icon: "mdi-database",
+                    color: "blue darken-4"}
+            ],
+            skillLeft: [
+                {title: 'GitHub', href: 'https://github.com/thanhtrannn/', bg: 'images/coding.jpg', scrollAt: '200', icon: 'mdi-github-box'},
+                {title: 'LinkedIn', href: 'https://www.linkedin.com/in/thanhtran7/', bg: 'images/business.jpg', scrollAt: '400', icon: 'mdi-linkedin-box'},
+                {title: 'Resume', href: 'assets/Thanh_Tran_Resume.pdf', bg: 'images/resume.jpg', scrollAt: '450', icon: 'mdi-file-document-box-check-outline'}
+            ],
+            items: [
+                {
+                    bg: 'url(images/exp-bg/mohawk.png)',
+                    mobilebg: 'url(images/exp-bg/mohawk-mobile.png)',
+                    title: 'Mohawk College',
+                    subtitle: 'Computer Systems Technology - Software Development',
+                    date: 'Dec 2019',
+                    icon: 'mdi-school-outline',
+                    text: 'Graduated with 92% GPA. Gained insight in the various technology and methodology within the current industry.'
+                },
+                {
+                    bg: 'url(images/exp-bg/brock.png)',
+                    mobilebg: 'url(images/exp-bg/brock-mobile.png)',
+                    title: 'Brock University',
+                    subtitle: 'Bachelor of Business Administration',
+                    date: 'August 2013',
+                    icon: 'mdi-school-outline',
+                    text: 'Majored in Finance, but I have always enjoyed the Information Systems courses within the program of studies.'
+                },
+                {
+                    bg: 'url(images/exp-bg/financialassistance.png)',
+                    mobilebg: 'url(images/exp-bg/financialassistance-mobile.png)',
+                    title: 'IT Developer/Support',
+                    subtitle: 'Mohawk College - Financial Assistance',
+                    date: 'May 2019 - Present',
+                    icon: 'mdi-briefcase-outline',
+                    text: 'Responsible for designing, developing and implementing solutions utilizing technology to improve and streamline processes within Financial Assistance. This includes task automation, data validation, report generator, database configuration, and a web application'
+                },
+                {
+                    bg: 'url(images/exp-bg/laptop-coding.png)',
+                    mobilebg: 'url(images/exp-bg/laptop-coding-mobile.png)',
+                    title: 'Web Developer',
+                    subtitle: 'Mohawk College - End User Computing',
+                    textColor: 'indigo--text',
+                    icon: 'mdi-briefcase-outline',
+                    text: 'Responsible for providing the general public information regarding the availability of software available at Mohawk through MohawkAPPS.'
+                },
+                {
+                    bg: 'url(images/exp-bg/oakville.png)',
+                    mobilebg: 'url(images/exp-bg/oakville-mobile.png)',
+                    title: 'Programmer',
+                    subtitle: 'Town of Oakville',
+                    date: 'May 2018 – Dec 2018',
+                    icon: 'mdi-briefcase-outline',
+                    text: 'As a co-op student, I worked with clients from various department to implement a solution to streamline their business processes. This includes forms, web applications and workflow processes within a SharePoint environment.'
+                },
+                {
+                    bg: 'url(images/exp-bg/math.png)',
+                    mobilebg: 'url(images/exp-bg/math-mobile.png)',
+                    title: 'Web Content Developer',
+                    subtitle: 'Mohawk College - Math Department',
+                    date: 'Sept 2017 – Apr 2018',
+                    icon: 'mdi-briefcase-outline',
+                    text: 'Responsible for contributing, updating, debugging and improving a proprietary CMS system made of JavaScript, jQuery and Mustache, to enable fully customizable learning plan pages within eLearn’s infrastructure'
+                },
+            ],
+            windowSize: {
+                x: 0,
+                y: 0
+            },
+            projects: [
+                { title: 'Splane Roy LLP',
+                    src: 'images/proj-bg/sp-logo.png',
+                    href:'http://ontario-familylawyer.com',
+                    description: "Work with Splane Roy LLP to develop a responsive website that portrays their branding and giving their practice an online presence. The purpose of the website is to provide general legal matters in hopes of generating leads for potential clients<ul><li>Developed using Vue.js, Vuetify, HTML, CSS</li><li>PHP and Axios for contact form submission</li><li>Content created with Adobe PhotoShop and Illustrator</li><li>Hosted on cPanel</li></ul>", show: 2400,
+                    links: [
+                        {value: 'Visit',href:'https://ontario-familylawyer.com/'}
+                    ]
+                },
+                { title: 'Burlington Optical',
+                    src: 'images/proj-bg/optical1.png',
+                    href:'https://burlingtonoptical.ca/',
+                    description: "Responsible for rebranding the website by aligning design and feel with client's vision<ul><li>Previous website developed with jQuery, JavaScript, Bootstrap, HTML, CSS</li><li>Migrated to Shopify with intention of implementing ecommerce in the near future</li><li>New website utilizes Shopify Theme, JavaScript and jQuery</li><li>PHP for contact form submission, JavaScript for validation</li></ul>", show: 2400,
+                    links: [
+                        {value: 'Visit',href:'https://burlingtonoptical.ca/'}
+                    ]
+                },
+                { title: 'MohawkAPPS and Web Scraper',
+                    src: 'images/proj-bg/mohawkapps1.png',
+                    href:'http://web.mohawkcollege.ca/mohawk-apps-software-matrix/',
+                    description: "Created a website to inform the general public of software available through MohawkAPPS, while complying with Mohawk’s guidelines and regulations<ul><li>Developed using jQuery, JavaScript, Bootstrap, HTML, CSS and DataTables</li><li>Utilizes data stored in JSON</li><li>Data generated from a web scraper built using Python, WebDriver, and Beautiful Soup</li><li>Bash script utilizing Tasks to schedule scrape to ensure data is updated</li></ul>", show: 2500,
+                    links: [
+                        {value: 'Visit',href:'http://web.mohawkcollege.ca/mohawk-apps-software-matrix/'},
+                        {value: 'Source Code', href:'https://github.com/thanhtrannn/web-scraper'}
+                    ]
+                },
+                { title: 'Park N Go',
+                    src: 'images/proj-bg/parkngoBG.gif',
+                    href:'https://github.com/thanhtrannn/ParkNGo',
+                    description: "Web application for everything related to parking. Users will be able to view, rent, communicate, post and find out information regarding the parking around the vicinity they may be visiting. <ul><li>Utilized C# ASP.NET CORE MVC, Google Maps API, HTML, CSS, Bootstrap, Javascript, jQuery, and Microsoft SQL Server 2016</li><li>Serilog used for environment based logging within console, event viewer and rolling file</li><li>Test cases created using Selenium and LambdaTest</li><li>Initially hosted on Azure Cloud, switched to Azure VM running Windows Server 2019, as a budget friendly alternative</li></ul>", show: 2600,
+                    links: [
+                        {value: 'Source Code',href:'https://github.com/thanhtrannn/ParkNGo'},
+                        {value: 'Demo Video',href:'https://www.youtube.com/watch?v=42SRPGvkVDg'}
+                    ]
+                },
+                { title: 'Barbers Mark',
+                    src: 'images/proj-bg/barbersmark1.png',
+                    href:'http://www.thebarbersmark.ca/',
+                    description: "Developed a responsive website detailing services available at the barber shop and general information<ul><li>Developed using jQuery, JavaScript, HTML, CSS and BootStrap</li><li>PHP for contact form submission, JavaScript for validation</li><li>Hosted on cPanel</li></ul> ", show: 2700,
+                    links: [
+                        {value: 'Visit',href:'http://www.thebarbersmark.ca/'}
+                    ]
+                },
+                { title: 'Doorbell with Motion Sensor and Facial Recognition',
+                    src: 'images/proj-bg/doorbell.jpg',
+                    href:'https://github.com/thanhtrannn/raspberrypi-camera',
+                    description: "Create a doorbell to have features that revolved around facial recognition<ul><li>Hardware: Raspberry Pi, camera module, motion sensor module, breadboard, led, capacitors</li><li>OS: Raspbian - Linux</li><li>Python - Use of facial recognition library and algorithm, control of motion sensor and led lights, and using Twilio API to send text and email</li><li>HTML, CSS, JavaScript and jQuery to create site to display live feed</li><li>Hosted on Apache</li></ul>", show: 2750,
+                    links: [
+                        {value: 'Source Code',href:'https://github.com/thanhtrannn/raspberrypi-camera'}
+                    ]
+                },
+                { title: 'Mohawk\'s EPIC Solution',
+                    src: 'images/proj-bg/mepicBg.gif',
+                    href:'https://github.com/thanhtrannn/ParkNGo',
+                    description: "Created a solution for Mohawk's EPIC using openHAB, MariaDB and Grafana to retrieve, store and graph readings from electrical metres<ul><li>Developed and hosted on a Windows environment</li><li>Created documentations outlining setup, functionality and deployment</li></ul>", show: 2800,
+                    links: [
+                        {value: 'Documentation',href:'https://drive.google.com/file/d/1idqQO3e9U3HfHJhqQ-nIF_azcQ_isIkO/view'},
+                        {value: 'Demo Video',href:'https://www.youtube.com/watch?v=ffKFiQl7Exk'}
+                    ]
+                }
+            ]
+        },
+        methods: {
+            onScroll (e) {
+                this.scrolled = window.scrollY > 0;
+                this.scrollPosition = window.scrollY;
+                if ( window.scrollY > 150){
+                    var toIncreaseBy = ( window.scrollY - 100 + 1 ) / 6;
+                    this.skillBar = toIncreaseBy + "%";
+                }
+                if (window.scrollY + 50 >= document.getElementById("information-section").offsetTop && window.scrollY + 50 < document.getElementById("experiences-section").offsetTop ){
+                    this.selectedTab = 1;
+                }
+                else if (window.scrollY  + 50 >= document.getElementById("experiences-section").offsetTop && window.scrollY + 50 < document.getElementById("project-section").offsetTop ){
+                    this.selectedTab = 2;
+                }
+                else if (window.scrollY + 50 >= document.getElementById("project-section").offsetTop ){
+                    this.selectedTab = 3;
+                }else{
+                    this.selectedTab = 0;
+                }
+                if (window.scrollY !== 0 ){
+                    this.atTop = false;
+                }else{
+                    this.atTop = true;
+                }
+
+            },
+            onResize () {
+                this.windowSize = { x: window.innerWidth, y: window.innerHeight };
+                if ( window.innerWidth < 480 ){
+                    this.mobile = true;
+                }
+                else{
+                    this.mobile = false;
+                }
+            },
+            navScroll (navItem, selectedTab) {
+                this.tabWasClicked = true;
+                this.selectedTab = selectedTab;
+                let navSpacing = 0;
+                // offset for navigation size
+                if (this.mobile !== true){
+                    navSpacing = 50;
+                }
+                switch(navItem){
+                    case "Introduction":
+                        this.scrollTop = 0;
+                        break;
+                    case "Information":
+                        this.scrollTop = document.getElementById('information-section').offsetTop - navSpacing;
+                        break;
+                    case "Experiences":
+                        this.scrollTop = document.getElementById('experiences-section').offsetTop - navSpacing;
+                        break;
+                    case "Projects":
+                        this.scrollTop = document.getElementById("project-section").offsetTop - navSpacing ;
+                        break;
+                }
+                window.scrollTo({
+                    top: this.scrollTop,
+                    behavior: 'smooth'
+                });
+                this.drawer = false;
+            },
+            goToPage(page){
+                window.open(page, "_self");
+            }
+        },
+        mounted () {
+            this.onResize();
+            // type.js script settings
+            new Typed('.intro-message', {
+                strings: ["I am looking for opportunities and challenges to further enhance my skills in software development, as I collaborate, design, develop and deploy solutions that fit your need."],
+                typeSpeed: 10
+            });
+        }
+    })
+
+</script>
+</html>

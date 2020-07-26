@@ -1,0 +1,161 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.remove-padding{
+    padding: 0;
+}
+
+.font-white{
+    color:white;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.v-card__title{
+    word-break: break-word !important;
+}
+
+/* Navigation Section */
+.nav-button{
+    color: steelblue;
+}
+.nav-button:hover{
+    background-color: steelblue !important;
+    color: white;
+    font-weight: bold !important;
+    font-size: 100% !important;
+    transition: all 200ms !important;
+    cursor: pointer;
+}
+
+#nav-bar, .link-title{
+    text-shadow: 1px 1px black;
+}
+
+/* Mobile Navigation */
+#mobileNav{
+    width: 10px !important;
+    position: fixed;
+    z-index: 1;
+    background-color: #212121 !important;
+    top: 10px;
+    right: 10px;
+}
+
+/* Top Section */
+#top-section{
+    background-image: url('../images/laptop.jpg');
+    background-position: center;
+    background-size: cover;
+    text-shadow: 1px 1px black;
+}
+
+/* Information Section */
+#information-section{
+    font-size: .8rem !important;
+}
+
+.skillLeft .v-progress-linear__content{
+    justify-content: flex-end !important;
+}
+
+.skillRight .v-progress-linear__content{
+    justify-content: flex-start !important;
+}
+
+#drawer-links{
+    justify-content: center !important;
+}
+#drawer-links a{
+    text-decoration: none;
+    padding: 5px;
+}
+#drawer-section .v-list-item{
+    justify-content: center !important;
+}
+
+/* Experience Section */
+#experiences-section{
+    max-width: 1200px;
+    margin: auto;
+}
+
+.bg-timeline{
+    padding: 15px;
+}
+
+.experience-card{
+    background-size: cover;
+    background-color: white;
+    background-position: center;
+    text-shadow: 1px 1px black;
+}
+
+.experience-detail{
+    color: white;
+}
+/* Project Section */
+.project-title{
+    text-align: center !important;
+}
+
+#project-section{
+    min-height: 1000px;
+    word-break: break-word !important;
+}
+.project-details{
+    text-align: left;
+}
+
+.v-avatar:hover{
+    background-size: 120% !important;
+}
+
+.menu {
+    text-align: left;
+    display: inline;
+}
+.menu li{
+    display: inline;
+    border-right: #ccc solid thin;
+    padding: 5px;
+    font-size: .75rem!important;
+    text-transform: uppercase;
+    font-family: Roboto,sans-serif!important;
+}
+
+.menu li:last-child{
+    border-right: none;
+}
+
+
+/* Footer section */
+#footer-area{
+    font-size: .6rem!important;
+    font-weight: 500;
+    letter-spacing: .1666666667em!important;
+    line-height: 1rem;
+    text-transform: uppercase;
+    font-family: Roboto,sans-serif!important;
+    padding-top: 10px;
+}
+
+.v-footer{
+    justify-content: center !important;
+    text-align: center;
+}
+
+#footer-link-section{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 480px) {
+
+    figure[style] {
+        transform: initial !important;
+    }
+    #project-section .v-card__subtitle{
+        font-size: 60% !important;
+    }
+}

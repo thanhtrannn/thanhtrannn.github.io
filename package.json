@@ -1,0 +1,16 @@
+{
+    "name": "thanhsWeb",
+    "version": "1.0.0",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "author": "Thanh Tran",
+    "contributors": [],
+    "dependencies": {
+        "typed.js": "^2.0.6"
+    }
+}
