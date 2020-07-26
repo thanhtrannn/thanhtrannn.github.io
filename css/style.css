@@ -34,7 +34,7 @@ html {
 }
 
 /* Mobile Navigation */
-#mobileNav{
+#mobile-nav{
     width: 10px !important;
     position: fixed;
     z-index: 1;
@@ -155,6 +155,14 @@ html {
     figure[style] {
         transform: initial !important;
     }
+
+    #top-section{
+        background-image: url('../images/laptop-mobile.jpg');
+        background-position: center;
+        background-size: cover;
+        text-shadow: 1px 1px black;
+    }
+    
     #project-section .v-card__subtitle{
         font-size: 60% !important;
     }

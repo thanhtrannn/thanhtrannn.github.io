@@ -33,7 +33,7 @@
             </v-app-bar>
         </template>
         <v-btn v-if="mobile === true"
-                id="mobileNav"
+                id="mobile-nav"
                 @click.stop="drawer = !drawer"
                 dark>
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
@@ -59,10 +59,7 @@
                     </v-list-item>
                     <v-list-item>
                         <div id="drawer-links">
-                            <a href="https://github.com/thanhtrannn/" target="_blank"><v-icon>mdi-github-box</v-icon></a>
-                            <a href="mailto:thanh-tran@hotmail.com"><v-icon>mdi-email</v-icon></a>
-                            <a text href="tel:19059215160"><v-icon>mdi-phone</v-icon></a>
-                            <a text href="https://www.linkedin.com/in/thanhtran7/" target="_blank"><v-icon>mdi-linkedin-box</v-icon></a>
+                            <a text v-for="link in contactLinks" :href=link.href target="_blank"><v-icon>{{link.icon}}</v-icon></a>
                         </div>
                     </v-list-item>
                 </div>
@@ -79,7 +76,7 @@
         </template>
         <template>
             <v-parallax
-                    :height = "windowSize.y"
+                    :height="windowSize.y"
                     class="top-bg"
                     id="top-section">
                 <div>
@@ -185,7 +182,7 @@
                                 v-for="(proj, i) in projects"
                                 cols="12">
                             <transition name="slide-y-reverse-transition" enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
-                                <div v-if="scrollPosition > proj.show">
+                                <div v-if="mobile=== false ? scrollPosition > proj.show : scrollPosition > proj.mobile">
                                     <v-card flat tile>
                                         <div class="d-flex flex-no-wrap ">
                                             <v-avatar
@@ -199,8 +196,8 @@
                                             <div class="project-details">
                                                 <v-card-title
                                                         class="headline"
-                                                        v-text="proj.title"
-                                                ></v-card-title>
+                                                        v-text="proj.title">
+                                                </v-card-title>
                                                 <hr v-if="mobile===false">
                                                 <v-img
                                                         v-if="mobile === true"
@@ -229,17 +226,16 @@
                 </v-card>
             </div>
         </template>
-        <v-footer>
-            <div id="footer-area">
-                <div>© Thanh Tran 2020</div>
-                <div id="footer-link-section">
-                    <v-btn text href="https://github.com/thanhtrannn/" target="_blank"><v-icon>mdi-github-box</v-icon></v-btn>
-                    <v-btn text href="mailto:thanh-tran@hotmail.com"><v-icon>mdi-email</v-icon></v-btn>
-                    <v-btn text href="tel:19059215160"><v-icon>mdi-phone</v-icon></v-btn>
-                    <v-btn text href="https://www.linkedin.com/in/thanhtran7/" target="_blank"><v-icon>mdi-linkedin-box</v-icon></v-btn>
+        <template>
+            <v-footer>
+                <div id="footer-area">
+                    <div>© Thanh Tran 2020</div>
+                    <div id="footer-link-section">
+                        <v-btn text v-for="link in contactLinks" :href=link.href target="_blank"><v-icon>{{link.icon}}</v-icon></v-btn>
+                    </div>
                 </div>
-            </div>
-        </v-footer>
+            </v-footer>
+        </template>
     </v-app>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
@@ -367,7 +363,9 @@
                 { title: 'Splane Roy LLP',
                     src: 'images/proj-bg/sp-logo.jpg',
                     href:'http://ontario-familylawyer.com',
-                    description: "Work with Splane Roy LLP to develop a responsive website that portrays their branding and giving their practice an online presence. The purpose of the website is to provide general legal matters in hopes of generating leads for potential clients<ul><li>Developed using Vue.js, Vuetify, HTML, CSS</li><li>PHP and Axios for contact form submission</li><li>Content created with Adobe PhotoShop and Illustrator</li><li>Hosted on cPanel</li></ul>", show: 2400,
+                    description: "Work with Splane Roy LLP to develop a responsive website that portrays their branding and giving their practice an online presence. The purpose of the website is to provide general legal matters in hopes of generating leads for potential clients<ul><li>Developed using Vue.js, Vuetify, HTML, CSS</li><li>PHP and Axios for contact form submission</li><li>Content created with Adobe PhotoShop and Illustrator</li><li>Hosted on cPanel</li></ul>", 
+                    show: 2400,
+                    mobile: 2700, 
                     links: [
                         {value: 'Visit',href:'https://ontario-familylawyer.com/'}
                     ]
@@ -375,7 +373,9 @@
                 { title: 'Burlington Optical',
                     src: 'images/proj-bg/optical1.jpg',
                     href:'https://burlingtonoptical.ca/',
-                    description: "Responsible for rebranding the website by aligning design and feel with client's vision<ul><li>Previous website developed with jQuery, JavaScript, Bootstrap, HTML, CSS</li><li>Migrated to Shopify with intention of implementing ecommerce in the near future</li><li>New website utilizes Shopify Theme, JavaScript and jQuery</li><li>PHP for contact form submission, JavaScript for validation</li></ul>", show: 2400,
+                    description: "Responsible for rebranding the website by aligning design and feel with client's vision<ul><li>Previous website developed with jQuery, JavaScript, Bootstrap, HTML, CSS</li><li>Migrated to Shopify with intention of implementing ecommerce in the near future</li><li>New website utilizes Shopify Theme, JavaScript and jQuery</li><li>PHP for contact form submission, JavaScript for validation</li></ul>", 
+                    show: 2400,
+                    mobile: 3000, 
                     links: [
                         {value: 'Visit',href:'https://burlingtonoptical.ca/'}
                     ]
@@ -383,7 +383,9 @@
                 { title: 'MohawkAPPS and Web Scraper',
                     src: 'images/proj-bg/mohawkapps1.jpg',
                     href:'http://web.mohawkcollege.ca/mohawk-apps-software-matrix/',
-                    description: "Created a website to inform the general public of software available through MohawkAPPS, while complying with Mohawk’s guidelines and regulations<ul><li>Developed using jQuery, JavaScript, Bootstrap, HTML, CSS and DataTables</li><li>Utilizes data stored in JSON</li><li>Data generated from a web scraper built using Python, WebDriver, and Beautiful Soup</li><li>Bash script utilizing Tasks to schedule scrape to ensure data is updated</li></ul>", show: 2500,
+                    description: "Created a website to inform the general public of software available through MohawkAPPS, while complying with Mohawk’s guidelines and regulations<ul><li>Developed using jQuery, JavaScript, Bootstrap, HTML, CSS and DataTables</li><li>Utilizes data stored in JSON</li><li>Data generated from a web scraper built using Python, WebDriver, and Beautiful Soup</li><li>Bash script utilizing Tasks to schedule scrape to ensure data is updated</li></ul>", 
+                    show: 2500,
+                    mobile: 3300, 
                     links: [
                         {value: 'Visit',href:'http://web.mohawkcollege.ca/mohawk-apps-software-matrix/'},
                         {value: 'Source Code', href:'https://github.com/thanhtrannn/web-scraper'}
@@ -392,7 +394,9 @@
                 { title: 'Park N Go',
                     src: 'images/proj-bg/parkngoBG.gif',
                     href:'https://github.com/thanhtrannn/ParkNGo',
-                    description: "Web application for everything related to parking. Users will be able to view, rent, communicate, post and find out information regarding the parking around the vicinity they may be visiting. <ul><li>Utilized C# ASP.NET CORE MVC, Google Maps API, HTML, CSS, Bootstrap, Javascript, jQuery, and Microsoft SQL Server 2016</li><li>Serilog used for environment based logging within console, event viewer and rolling file</li><li>Test cases created using Selenium and LambdaTest</li><li>Initially hosted on Azure Cloud, switched to Azure VM running Windows Server 2019, as a budget friendly alternative</li></ul>", show: 2600,
+                    description: "Web application for everything related to parking. Users will be able to view, rent, communicate, post and find out information regarding the parking around the vicinity they may be visiting. <ul><li>Utilized C# ASP.NET CORE MVC, Google Maps API, HTML, CSS, Bootstrap, Javascript, jQuery, and Microsoft SQL Server 2016</li><li>Serilog used for environment based logging within console, event viewer and rolling file</li><li>Test cases created using Selenium and LambdaTest</li><li>Initially hosted on Azure Cloud, switched to Azure VM running Windows Server 2019, as a budget friendly alternative</li></ul>", 
+                    show: 2600,
+                    mobile: 3600, 
                     links: [
                         {value: 'Source Code',href:'https://github.com/thanhtrannn/ParkNGo'},
                         {value: 'Demo Video',href:'https://www.youtube.com/watch?v=42SRPGvkVDg'}
@@ -401,7 +405,9 @@
                 { title: 'Barbers Mark',
                     src: 'images/proj-bg/barbersmark1.jpg',
                     href:'http://www.thebarbersmark.ca/',
-                    description: "Developed a responsive website detailing services available at the barber shop and general information<ul><li>Developed using jQuery, JavaScript, HTML, CSS and BootStrap</li><li>PHP for contact form submission, JavaScript for validation</li><li>Hosted on cPanel</li></ul> ", show: 2700,
+                    description: "Developed a responsive website detailing services available at the barber shop and general information<ul><li>Developed using jQuery, JavaScript, HTML, CSS and BootStrap</li><li>PHP for contact form submission, JavaScript for validation</li><li>Hosted on cPanel</li></ul> ", 
+                    show: 2700,
+                    mobile: 3900, 
                     links: [
                         {value: 'Visit',href:'http://www.thebarbersmark.ca/'}
                     ]
@@ -409,7 +415,9 @@
                 { title: 'Doorbell with Motion Sensor and Facial Recognition',
                     src: 'images/proj-bg/doorbell.jpg',
                     href:'https://github.com/thanhtrannn/raspberrypi-camera',
-                    description: "Create a doorbell to have features that revolved around facial recognition<ul><li>Hardware: Raspberry Pi, camera module, motion sensor module, breadboard, led, capacitors</li><li>OS: Raspbian - Linux</li><li>Python - Use of facial recognition library and algorithm, control of motion sensor and led lights, and using Twilio API to send text and email</li><li>HTML, CSS, JavaScript and jQuery to create site to display live feed</li><li>Hosted on Apache</li></ul>", show: 2750,
+                    description: "Create a doorbell to have features that revolved around facial recognition<ul><li>Hardware: Raspberry Pi, camera module, motion sensor module, breadboard, led, capacitors</li><li>OS: Raspbian - Linux</li><li>Python - Use of facial recognition library and algorithm, control of motion sensor and led lights, and using Twilio API to send text and email</li><li>HTML, CSS, JavaScript and jQuery to create site to display live feed</li><li>Hosted on Apache</li></ul>", 
+                    show: 2750,
+                    mobile: 4200, 
                     links: [
                         {value: 'Source Code',href:'https://github.com/thanhtrannn/raspberrypi-camera'}
                     ]
@@ -417,18 +425,27 @@
                 { title: 'Mohawk\'s EPIC Solution',
                     src: 'images/proj-bg/mepicBg.gif',
                     href:'https://github.com/thanhtrannn/ParkNGo',
-                    description: "Created a solution for Mohawk's EPIC using openHAB, MariaDB and Grafana to retrieve, store and graph readings from electrical metres<ul><li>Developed and hosted on a Windows environment</li><li>Created documentations outlining setup, functionality and deployment</li></ul>", show: 2800,
+                    description: "Created a solution for Mohawk's EPIC using openHAB, MariaDB and Grafana to retrieve, store and graph readings from electrical metres<ul><li>Developed and hosted on a Windows environment</li><li>Created documentations outlining setup, functionality and deployment</li></ul>", 
+                    show: 2800,
+                    mobile: 5200, 
                     links: [
                         {value: 'Documentation',href:'https://drive.google.com/file/d/1idqQO3e9U3HfHJhqQ-nIF_azcQ_isIkO/view'},
                         {value: 'Demo Video',href:'https://www.youtube.com/watch?v=ffKFiQl7Exk'}
                     ]
                 }
+            ],
+            contactLinks:[
+                {"href": "https://github.com/thanhtrannn/", "icon": "mdi-github-box"},
+                {"href": "mailto:thanh-tran@hotmail.com", "icon": "mdi-email"},
+                {"href": "tel:19059215160", "icon": "mdi-phone"},
+                {"href": "https://www.linkedin.com/in/thanhtran7/", "icon": "mdi-linkedin-box"}
             ]
         },
         methods: {
             onScroll (e) {
                 this.scrolled = window.scrollY > 0;
                 this.scrollPosition = window.scrollY;
+                console.log(window.scrollY);
                 if ( window.scrollY > 150){
                     var toIncreaseBy = ( window.scrollY - 100 + 1 ) / 6;
                     this.skillBar = toIncreaseBy + "%";
